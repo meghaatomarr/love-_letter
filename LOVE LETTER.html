@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Letter Generator 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive;
+            background: linear-gradient(135deg, #ffd7e8 0%, #c7ceea 25%, #b5ead7 50%, #e0bbe4 75%, #ffdfd3 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 40px;
+            padding: 50px;
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.3);
+            border: 4px solid #ffb6d9;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .emoji-header {
+            font-size: 100px;
+            margin-bottom: 15px;
+            animation: float 3s ease-in-out infinite;
+            letter-spacing: 15px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-40px) rotate(8deg); }
+        }
+
+        .title {
+            font-size: 48px;
+            background: linear-gradient(135deg, #ff1493, #ff69b4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .label {
+            display: block;
+            font-size: 18px;
+            color: #d63384;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #ffb6d9;
+            border-radius: 20px;
+            font-size: 16px;
+            font-family: 'Comic Sans MS', cursive;
+            background: #fff0f5;
+            color: #d63384;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(255, 20, 147, 0.5);
+            border-color: #ff69b4;
+            transform: scale(1.02);
+        }
+
+        textarea.input-field {
+            resize: vertical;
+            min-height: 100px;
+            font-family: 'Comic Sans MS', cursive;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-option {
+            padding: 15px;
+            border: 2px solid #ffb6d9;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .radio-option:hover {
+            transform: scale(1.05);
+            background: #ffe5f0;
+        }
+
+        .radio-option input {
+            display: none;
+        }
+
+        .radio-option input:checked + label {
+            color: white;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            padding: 15px;
+            border-radius: 10px;
+            margin: -15px;
+        }
+
+        .radio-option label {
+            display: block;
+            font-weight: bold;
+            color: #d63384;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        .btn-generate:hover {
+            transform: scale(1.12);
+            box-shadow: 0 15px 40px rgba(255, 20, 147, 0.5);
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #b5ead7, #88d8b0);
+            color: white;
+        }
+
+        .btn-copy:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(136, 216, 176, 0.5);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #e0bbe4, #c7ceea);
+            color: white;
+        }
+
+        .btn-download:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(224, 187, 228, 0.5);
+        }
+
+        .btn-share {
+            background: linear-gradient(135deg, #ffd6a5, #ffb3a5);
+            color: white;
+        }
+
+        .btn-share:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 30px rgba(255, 179, 165, 0.5);
+        }
+
+        .letter-display {
+            display: none;
+            background: linear-gradient(135deg, #fff8f3, #ffe4f0);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 3px dashed #ff69b4;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .letter-display.active {
+            display: block;
+        }
+
+        .letter-content {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-style: italic;
+            font-family: 'Georgia', serif;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .letter-signature {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ff69b4;
+            font-weight: bold;
+            font-style: italic;
+            font-family: 'Georgia', serif;
+        }
+
+        .copy-notification {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #88d8b0, #b5ead7);
+            color: white;
+            padding: 16px 25px;
+            border-radius: 15px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .copy-notification.show {
+            display: block;
+        }
+
+        .form-section {
+            display: block;
+        }
+
+        .form-section.hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .title {
+                font-size: 36px;
+            }
+
+            .emoji-header {
+                font-size: 70px;
+                letter-spacing: 10px;
+            }
+
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+
+            .letter-content {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="copy-notification" id="copyNotification">
+        ✨ Copied to clipboard! 💕
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="emoji-header">💌✨💕</div>
+            <div class="title">Love Letter Generator</div>
+        </div>
+
+        <!-- Form Section -->
+        <div id="formSection" class="form-section">
+            <div class="form-group">
+                <label class="label">Your Name 💕</label>
+                <input type="text" class="input-field" id="senderName" placeholder="Your beautiful name...">
+            </div>
+
+            <div class="form-group">
+                <label class="label">Their Name 💗</label>
+                <input type="text" class="input-field" id="recipientName" placeholder="Their beautiful name...">
+            </div>
+
+            <div class="form-group">
+                <label class="label">Your Favorite Thing About Them ✨</label>
+                <input type="text" class="input-field" id="favoriteQuality" placeholder="e.g., Your smile, your kindness...">
+            </div>
+
+            <div class="form-group">
+                <label class="label">A Special Memory 💭</label>
+                <textarea class="input-field" id="specialMemory" placeholder="Tell me about a moment you'll never forget..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="label">How Do You Feel? 💖</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="feeling1" name="feeling" value="deeply in love" checked>
+                        <label for="feeling1">Deeply in Love 💕</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="feeling2" name="feeling" value="completely enchanted">
+                        <label for="feeling2">Enchanted 💫</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="feeling3" name="feeling" value="head over heels">
+                        <label for="feeling3">Head Over Heels 🌹</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="feeling4" name="feeling" value="forever grateful">
+                        <label for="feeling4">Forever Grateful 🙏</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-generate" onclick="generateLetter()">✨ Generate Letter ✨</button>
+            </div>
+        </div>
+
+        <!-- Letter Display Section -->
+        <div class="letter-display" id="letterDisplay">
+            <div class="letter-content" id="letterContent"></div>
+            <div class="letter-signature" id="letterSignature"></div>
+
+            <div class="button-group" style="margin-top: 30px;">
+                <button class="btn btn-copy" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+                <button class="btn btn-download" onclick="downloadLetter()">📥 Download as Text</button>
+                <button class="btn btn-share" onclick="shareLetter()">📤 Share Letter</button>
+                <button class="btn btn-generate" onclick="goBack()">✏️ Edit Letter</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loveLetterTemplates = [
+            "My Dearest {recipient},\n\nEvery moment I spend with you feels like a dream come true. The way your {quality} brightens my world is indescribable.\n\nI will never forget {memory}. That moment made me realize how deeply I am {feeling}.\n\nYou are not just my love, you are my forever. I promise to cherish every second with you.\n\nForever yours,\n{sender}",
+
+            "To My One and Only {recipient},\n\nI wanted to write to you to tell you what my heart already knows - I am {feeling} with you.\n\nYour {quality} is like a beacon of light in my life. And that day we {memory}, I knew you were the one.\n\nWith you, I have found my home, my peace, and my forever love.\n\nAll my love,\n{sender}",
+
+            "My Sweetest {recipient},\n\nWords cannot express how much you mean to me. Every day with you is a blessing.\n\nI admire your {quality} more than anything. It's one of the many reasons I am {feeling}.\n\nWhen I think of {memory}, I smile because I know I'm the luckiest person alive to have you.\n\nYou are my greatest love story.\n\nForever devoted,\n{sender}",
+
+            "Dearest {recipient},\n\nI had to write this letter to tell you what my heart feels every single day - I am {feeling}.\n\nYour {quality} makes me want to be a better person. Thank you for being exactly who you are.\n\nI will cherish {memory} for the rest of my life. In that moment, I knew you were my forever.\n\nI love you more than words can say.\n\nYours eternally,\n{sender}",
+
+            "To the Love of My Life {recipient},\n\nToday, I wanted to remind you how precious you are to me. I am {feeling}, and every day with you proves why.\n\nYour {quality} is absolutely beautiful. It's just one of countless reasons I adore you.\n\nI think about {memory} often, and it fills my heart with joy knowing we share such precious moments.\n\nYou are my forever love.\n\nWith all my heart,\n{sender}",
+
+            "My Beautiful {recipient},\n\nI don't have the perfect words to describe how much I love you, but I'll try. When I'm with you, everything feels right.\n\nYour {quality} is something I admire deeply. It makes me fall in love with you all over again.\n\nI remember {memory} like it was yesterday. That's when I knew my heart would forever belong to you.\n\nI am {feeling}, and you are the reason why.\n\nEternally yours,\n{sender}",
+
+            "{recipient},\n\nThere are so many things I want to say to you, but I'll start with this: I love you.\n\nNot just because of your {quality}, but because of who you are.\n\nEvery time I recall {memory}, my heart overflows with gratitude for having you in my life.\n\nI am {feeling}, and I will spend forever showing you just how much you mean to me.\n\nAll my love,\n{sender}",
+
+            "Dear {recipient},\n\nI wanted to take a moment to tell you something my heart has been holding: I am {feeling} with you.\n\nYour {quality} takes my breath away every single day. You make me believe in true love.\n\nI will never forget {memory}. It was the moment I understood that some people are worth waiting for forever.\n\nThank you for being mine.\n\nYour devoted,\n{sender}"
+        ];
+
+        function generateLetter() {
+            const senderName = document.getElementById('senderName').value.trim();
+            const recipientName = document.getElementById('recipientName').value.trim();
+            const favoriteQuality = document.getElementById('favoriteQuality').value.trim();
+            const specialMemory = document.getElementById('specialMemory').value.trim();
+            const feeling = document.querySelector('input[name="feeling"]:checked').value;
+
+            if (!senderName || !recipientName || !favoriteQuality || !specialMemory) {
+                alert('Please fill in all fields! 💕');
+                return;
+            }
+
+            const template = loveLetterTemplates[Math.floor(Math.random() * loveLetterTemplates.length)];
+            
+            let letter = template
+                .replace(/{recipient}/g, recipientName)
+                .replace(/{sender}/g, senderName)
+                .replace(/{quality}/g, favoriteQuality)
+                .replace(/{memory}/g, specialMemory)
+                .replace(/{feeling}/g, feeling);
+
+            document.getElementById('letterContent').textContent = letter;
+            document.getElementById('letterSignature').textContent = `Forever,\n${senderName} 💕`;
+            
+            document.getElementById('formSection').classList.add('hidden');
+            document.getElementById('letterDisplay').classList.add('active');
+
+            createCelebration();
+        }
+
+        function copyToClipboard() {
+            const letter = document.getElementById('letterContent').textContent + '\n\n' + document.getElementById('letterSignature').textContent;
+            
+            navigator.clipboard.writeText(letter).then(() => {
+                showCopyNotification();
+            }).catch(() => {
+                alert('Could not copy. Please try again! 💕');
+            });
+        }
+
+        function showCopyNotification() {
+            const notification = document.getElementById('copyNotification');
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function downloadLetter() {
+            const letter = document.getElementById('letterContent').textContent + '\n\n' + document.getElementById('letterSignature').textContent;
+            const senderName = document.getElementById('senderName').value;
+            const recipientName = document.getElementById('recipientName').value;
+            
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(letter));
+            element.setAttribute('download', `love-letter-${senderName}-to-${recipientName}.txt`);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        function shareLetter() {
+            const letter = document.getElementById('letterContent').textContent;
+            const recipientName = document.getElementById('recipientName').value;
+            
+            const text = `I just wrote a beautiful love letter for ${recipientName}! 💌💕`;
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Love Letter',
+                    text: text,
+                    url: window.location.href
+                }).catch(() => {
+                    alert('Share cancelled. 💕');
+                });
+            } else {
+                alert('Share this text: ' + text + '\n\nURL: ' + window.location.href);
+            }
+        }
+
+        function goBack() {
+            document.getElementById('formSection').classList.remove('hidden');
+            document.getElementById('letterDisplay').classList.remove('active');
+        }
+
+        function createCelebration() {
+            const colors = ['#ff69b4', '#ffb6d9', '#b5ead7', '#e0bbe4', '#ffdfd3'];
+            
+            for (let i = 0; i < 60; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '1000';
+
+                document.body.appendChild(confetti);
+
+                let top = -10;
+                const speed = Math.random() * 5 + 3;
+                const drift = Math.random() * 400 - 200;
+
+                const interval = setInterval(() => {
+                    top += speed;
+                    confetti.style.top = top + 'px';
+                    confetti.style.left = (parseFloat(confetti.style.left) + drift / 100) + 'px';
+                    confetti.style.opacity = Math.max(0, 1 - (top / window.innerHeight));
+
+                    if (top > window.innerHeight) {
+                        clearInterval(interval);
+                        confetti.remove();
+                    }
+                }, 30);
+            }
+        }
+    </script>
+
+</body>
+</html>
